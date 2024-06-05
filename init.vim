@@ -12,7 +12,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'olimorris/onedarkpro.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'preservim/nerdtree'
 Plug 'voldikss/vim-floaterm'
 Plug 'numToStr/Comment.nvim'
 Plug 'ThePrimeagen/refactoring.nvim'
@@ -93,9 +93,41 @@ nnoremap <leader>s :w<CR>
 let g:copilot_no_tab_map = v:true
 inoremap <silent><script><expr> <C-h> copilot#Accept("\<CR>")
 
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
 
-" toggle neerdtree
-nnoremap <leader>e <cmd>NERDTreeToggle<CR>
+function! CheckIfCurrentBufferIsFile()
+  return strlen(expand('%')) > 0
+endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && CheckIfCurrentBufferIsFile() && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
+" Highlight currently open buffer in NERDTree
+autocmd BufRead * call SyncTree()
+
+function! ToggleTree()
+  if CheckIfCurrentBufferIsFile()
+    if IsNERDTreeOpen()
+      NERDTreeClose
+    else
+      NERDTreeFind
+    endif
+  else
+    NERDTree
+  endif
+endfunction
+
+" open NERDTree with leader e
+nnoremap <leader>e :call ToggleTree()<CR>
 
 " Enable nvim-cmp and set up key mappings
 " Initialize cmp
@@ -197,7 +229,7 @@ lua << EOF
     vim.keymap.set("n","<leader>a", vim.lsp.buf.code_action, bufopts)
   end
 
-  local servers = { 'clangd', 'pyright' }
+  local servers = { 'clangd', 'pyright', 'vimls' }
   for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup({
       on_attach = on_attach,
@@ -208,9 +240,4 @@ lua << EOF
   end
 
 EOF
-
-" Use nvim-lspconfig to configure Clangd for C/C++
-"if has('nvim')
-"  autocmd FileType c,cpp lua require('lspconfig').clangd.setup{}
-"endif
 
