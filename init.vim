@@ -36,6 +36,7 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'airblade/vim-gitgutter'
 Plug 'Mofiqul/vscode.nvim'
+Plug 'lambdalisue/suda.vim'
 call plug#end()
 
 lua <<EOF
