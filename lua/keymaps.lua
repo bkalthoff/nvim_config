@@ -3,14 +3,16 @@
 
 local map = vim.api.nvim_set_keymap
 local default_opts = {noremap = true, silent = true}
-
+-- Clang format
+vim.keymap.set("n", "<leader>cf", ":!clang-format -i %<CR>", { noremap = true, silent = true })
 -- Telescope mappings
 map('n', '<leader>ff', [[<cmd>lua require('telescope.builtin').grep_string({search = vim.fn.input("Search for > ")})<CR>]], default_opts)
 map('n', '<leader>p', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], default_opts)
 map('n', '<leader>fr', [[<cmd>lua require('telescope.builtin').lsp_references()<CR>]], default_opts)
 map('n', '<leader>fc', [[<cmd>lua require('telescope.builtin').git_files()<CR>]], default_opts)
 map('n', '<leader>b', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], default_opts)
-
+map('n', '<leader>P', [[<cmd>lua require('telescope.builtin').find_files({find_command = { "rg", "--files", "--hidden", "--no-ignore" }})<CR>]], default_opts)
+map('n', '<leader>FF', [[<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Search for > "), additional_args = function(opts) return { "--no-ignore", "--hidden" } end })<CR>]], default_opts)
 -- Set 'jk' to escape in insert mode
 map('i', 'jk', '<Esc>', {noremap = true})
 

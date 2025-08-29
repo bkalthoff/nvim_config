@@ -4,12 +4,17 @@
 require('mason').setup()
 require('mason-lspconfig').setup({
   ensure_installed = {
-    'clangd',    -- C/C++
-    'pyright',   -- Python
-    'vimls',     -- Vimscript
-    'lua_ls',    -- Lua
-    'bashls',    -- Bash
-    'cmake',     -- CMake
+    'clangd',       -- C/C++
+    'pyright',      -- Python
+    'vimls',        -- Vimscript
+    'lua_ls',       -- Lua
+    'bashls',       -- Bash
+    'cmake',        -- CMake
+    'eslint',       -- ESLint
+    'tailwindcss',  -- TailwindCSS
+    'jsonls',       -- JSON
+    'html',         -- HTML
+    'cssls',        -- CSS
   },
 })
 
@@ -56,6 +61,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
   vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, bufopts)
@@ -67,13 +73,18 @@ end
 
 local lspconfig = require('lspconfig')
 local servers = {
-  'clangd',    -- C/C++
-  'pyright',   -- Python
-  'vimls',     -- Vimscript
-  'lua_ls',    -- Lua
-  'bashls',    -- Bash
-  'cmake',     -- CMake
-  'gopls',     -- Go
+  'clangd',       -- C/C++
+  'pyright',      -- Python
+  'vimls',        -- Vimscript
+  'lua_ls',       -- Lua
+  'bashls',       -- Bash
+  'cmake',        -- CMake
+  'gopls',        -- Go'tsserver',     -- TypeScript/JavaScript
+  'eslint',       -- ESLint
+  'tailwindcss',  -- TailwindCSS
+  'jsonls',       -- JSON
+  'html',         -- HTML
+  'cssls',        -- CSS
 }
 
 for _, lsp in ipairs(servers) do

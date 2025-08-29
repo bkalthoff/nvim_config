@@ -1,5 +1,6 @@
 -- settings.lua
 
+vim.g.copilot_assume_mapped = true
 -- Leader keys
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
