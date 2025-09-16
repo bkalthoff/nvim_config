@@ -16,7 +16,7 @@ vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", opts)
 
 -- General mappings
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
-vim.keymap.set("n", "<leader>s", ":w<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>w", ":w<CR>", { noremap = true, desc = "Save file" })
 
 -- nvim-tree keymaps
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFile<CR>", { noremap = true, silent = true, desc = "Find current file in explorer" })
@@ -35,6 +35,10 @@ vim.keymap.set("n", "<leader>wv", "<C-w>v", { noremap = true, desc = "Split wind
 vim.keymap.set("n", "<leader>ws", "<C-w>s", { noremap = true, desc = "Split window horizontally" })
 vim.keymap.set("n", "<leader>wc", "<C-w>c", { noremap = true, desc = "Close current window" })
 vim.keymap.set("n", "<leader>wo", "<C-w>o", { noremap = true, desc = "Make window only" })
+
+-- Git keymaps (simplified)
+vim.keymap.set("n", "<leader>gg", "<cmd>Git<CR>", { noremap = true, desc = "Open Git status" })
+vim.keymap.set("n", "<leader>gx", "<cmd>Gdiffsplit<CR>", { noremap = true, desc = "Git diff split" })
 
 -- Terminal keymaps
 vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true, desc = "Toggle terminal" })

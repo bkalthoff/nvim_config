@@ -238,12 +238,7 @@ require("lazy").setup({
     dependencies = { "nvim-lua/plenary.nvim" },
   },
 
-  -- Git
-  {
-    "f-person/git-blame.nvim",
-    event = "BufRead",
-  },
-
+  -- Git tools
   {
     "lewis6991/gitsigns.nvim",
     event = "BufRead",
@@ -252,21 +247,21 @@ require("lazy").setup({
         signs = {
           add = { text = "▎", hl = "GitSignsAdd", numhl = "GitSignsAdd" },
           change = { text = "▎", hl = "GitSignsChange", numhl = "GitSignsChange" },
-          delete = { text = "▁", hl = "GitSignsDelete", numhl = "GitSignsDelete" },
-          topdelete = { text = "▔", hl = "GitSignsDelete", numhl = "GitSignsDelete" },
+          delete = { text = "▎", hl = "GitSignsDelete", numhl = "GitSignsDelete" },
+          topdelete = { text = "▎", hl = "GitSignsDelete", numhl = "GitSignsDelete" },
           changedelete = { text = "▎", hl = "GitSignsChange", numhl = "GitSignsChange" },
           untracked = { text = "▎", hl = "GitSignsAdd", numhl = "GitSignsAdd" },
         },
         signcolumn = true,
-        numhl = false,  -- Only highlight line numbers, not the whole line
-        linehl = false, -- Don't highlight the whole line
+        numhl = false,
+        linehl = false,
         word_diff = false,
         watch_gitdir = {
           interval = 1000,
           follow_files = true,
         },
         attach_to_untracked = true,
-        current_line_blame = false, -- Keep blame off by default
+        current_line_blame = false,
         current_line_blame_opts = {
           virt_text = true,
           virt_text_pos = "eol",
@@ -288,6 +283,21 @@ require("lazy").setup({
     end,
   },
 
+  -- Git fugitive - powerful git interface
+  {
+    "tpope/vim-fugitive",
+    cmd = { "Git", "G", "Gdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete", "GBrowse" },
+  },
+
+  -- Git blame
+  {
+    "f-person/git-blame.nvim",
+    event = "BufRead",
+  },
+
+
+
+  -- GitHub integration
   {
     "ruanyl/vim-gh-line",
     event = "BufRead",
