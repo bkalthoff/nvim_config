@@ -24,6 +24,25 @@ vim.keymap.set("n", "<leader>et", "<cmd>NvimTreeToggle<CR>", { noremap = true, s
 vim.keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { noremap = true, silent = true, desc = "Collapse file explorer" })
 vim.keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { noremap = true, silent = true, desc = "Refresh file explorer" })
 
+-- Window navigation
+vim.keymap.set("n", "<leader>h", "<C-w>h", { noremap = true, desc = "Move to left window" })
+vim.keymap.set("n", "<leader>j", "<C-w>j", { noremap = true, desc = "Move to window below" })
+vim.keymap.set("n", "<leader>k", "<C-w>k", { noremap = true, desc = "Move to window above" })
+vim.keymap.set("n", "<leader>l", "<C-w>l", { noremap = true, desc = "Move to right window" })
+
+-- Window management
+vim.keymap.set("n", "<leader>wv", "<C-w>v", { noremap = true, desc = "Split window vertically" })
+vim.keymap.set("n", "<leader>ws", "<C-w>s", { noremap = true, desc = "Split window horizontally" })
+vim.keymap.set("n", "<leader>wc", "<C-w>c", { noremap = true, desc = "Close current window" })
+vim.keymap.set("n", "<leader>wo", "<C-w>o", { noremap = true, desc = "Make window only" })
+
+-- Terminal keymaps
+vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true, desc = "Toggle terminal" })
+vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", { noremap = true, silent = true, desc = "Toggle floating terminal" })
+vim.keymap.set("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<CR>", { noremap = true, silent = true, desc = "Toggle horizontal terminal" })
+vim.keymap.set("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<CR>", { noremap = true, silent = true, desc = "Toggle vertical terminal" })
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, desc = "Exit terminal mode" })
+
 -- Copilot configuration
 vim.g.copilot_no_tab_map = true
 vim.keymap.set("i", "<C-h>", 'copilot#Accept("<CR>")', { noremap = true, silent = true, expr = true })

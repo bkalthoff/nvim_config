@@ -22,8 +22,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", bufopts)
   vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", bufopts)
   vim.keymap.set("n", "<leader>d", "<cmd>Telescope diagnostics<CR>", bufopts)
-  vim.keymap.set("n", "<leader>l", [[y<Esc>oconsole.log('\x1b[33m' .. vim.fn.getreg('"') .. ' ->', ]] ..
-    [[vim.fn.getreg('"') .. ', \x1b[0m');<Esc>]], bufopts)
+  -- <leader>l is now used for window navigation
 end
 
 local lspconfig = require("lspconfig")
