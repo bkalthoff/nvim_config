@@ -1,22 +1,23 @@
 
 -- keymaps.lua
+-- Global key mappings
 
-local map = vim.api.nvim_set_keymap
-local default_opts = {noremap = true, silent = true}
+local opts = { noremap = true, silent = true }
 
 -- Telescope mappings
-map('n', '<leader>ff', [[<cmd>lua require('telescope.builtin').grep_string({search = vim.fn.input("Search for > ")})<CR>]], default_opts)
-map('n', '<leader>p', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], default_opts)
-map('n', '<leader>fr', [[<cmd>lua require('telescope.builtin').lsp_references()<CR>]], default_opts)
-map('n', '<leader>fc', [[<cmd>lua require('telescope.builtin').git_files()<CR>]], default_opts)
-map('n', '<leader>b', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], default_opts)
+vim.keymap.set("n", "<leader>ff", function()
+  require("telescope.builtin").grep_string({ search = vim.fn.input("Search for > ") })
+end, opts)
 
--- Set 'jk' to escape in insert mode
-map('i', 'jk', '<Esc>', {noremap = true})
+vim.keymap.set("n", "<leader>p", "<cmd>Telescope find_files<CR>", opts)
+vim.keymap.set("n", "<leader>fr", "<cmd>Telescope lsp_references<CR>", opts)
+vim.keymap.set("n", "<leader>fc", "<cmd>Telescope git_files<CR>", opts)
+vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", opts)
 
--- Leader + s to save
-map('n', '<leader>s', ':w<CR>', {noremap = true})
+-- General mappings
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
+vim.keymap.set("n", "<leader>s", ":w<CR>", { noremap = true })
 
--- Rebind Copilot accept suggestion to <C-h>
+-- Copilot configuration
 vim.g.copilot_no_tab_map = true
-map('i', '<C-h>', 'copilot#Accept("<CR>")', {noremap = true, silent = true, expr = true})
+vim.keymap.set("i", "<C-h>", 'copilot#Accept("<CR>")', { noremap = true, silent = true, expr = true })

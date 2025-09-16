@@ -1,24 +1,25 @@
 
 -- init.lua
+-- Neovim configuration entry point
 
--- Load plugins
-require('plugins')
+-- Load general settings first
+require("settings")
 
--- Load general settings
-require('settings')
+-- Load plugins (lazy.nvim will handle installation)
+require("plugins")
 
 -- Load key mappings
-require('keymaps')
+require("keymaps")
 
 -- Load LSP configuration
-require('lsp')
+require("lsp")
 
 -- Load autocommands
-require('autocmds')
+require("autocmds")
 
 -- Load NERDTree functions
-require('nerdtree')
+require("nerdtree")
 
--- Load theme settings if any
-require('mytheme')
+-- Load theme settings
+require("mytheme")
 

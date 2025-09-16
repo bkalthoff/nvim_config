@@ -1,84 +1,53 @@
 -- lsp.lua
+-- LSP configuration and keybindings
 
--- Mason setup
-require('mason').setup()
-require('mason-lspconfig').setup({
-  ensure_installed = {
-    'clangd',    -- C/C++
-    'pyright',   -- Python
-    'vimls',     -- Vimscript
-    'lua_ls',    -- Lua
-    'bashls',    -- Bash
-    'cmake',     -- CMake
-  },
-})
+-- Add Mason bin directory to PATH
+local mason_bin = vim.fn.expand("~/.local/share/nvim/mason/bin")
+if not vim.tbl_contains(vim.split(vim.env.PATH, ":"), mason_bin) then
+  vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
+end
 
--- nvim-cmp setup
-local cmp = require('cmp')
-local luasnip = require('luasnip')
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  completion = {
-    completeopt = 'menu,menuone,noselect',
-  },
-  mapping = {
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-    ['<C-j>'] = cmp.mapping.select_next_item(),
-    ['<C-k>'] = cmp.mapping.select_prev_item(),
-    ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  }, {
-    { name = 'path' },
-    { name = 'buffer' },
-  }),
-})
-
--- Autopairs setup
-require('nvim-autopairs').setup({
-  check_ts = true,
-})
-
--- LSP settings
+-- LSP on_attach function
 local on_attach = function(client, bufnr)
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
+  vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-  -- Key mappings
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', '<leader>d', '<cmd>Telescope diagnostics<CR>', bufopts)
-  vim.keymap.set('n', '<leader>l', [[y<Esc>oconsole.log('\x1b[33m' .. vim.fn.getreg('"') .. ' ->', ]] ..
+  -- LSP key mappings
+  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", bufopts)
+  vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", bufopts)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+  vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
+  vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", bufopts)
+  vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", bufopts)
+  vim.keymap.set("n", "<leader>d", "<cmd>Telescope diagnostics<CR>", bufopts)
+  vim.keymap.set("n", "<leader>l", [[y<Esc>oconsole.log('\x1b[33m' .. vim.fn.getreg('"') .. ' ->', ]] ..
     [[vim.fn.getreg('"') .. ', \x1b[0m');<Esc>]], bufopts)
 end
 
-local lspconfig = require('lspconfig')
+local lspconfig = require("lspconfig")
+
+-- LSP servers to configure
 local servers = {
-  'clangd',    -- C/C++
-  'pyright',   -- Python
-  'vimls',     -- Vimscript
-  'lua_ls',    -- Lua
-  'bashls',    -- Bash
-  'cmake',     -- CMake
-  'gopls',     -- Go
+  "lua_ls",    -- Lua
+  "pyright",   -- Python
+  "bashls",    -- Bash
+  "clangd",    -- C/C++
+  "cmake",     -- CMake
+  "vimls",     -- Vimscript
 }
 
+-- Get capabilities from nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+-- Configure each LSP server
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
+    capabilities = capabilities,
   })
 end
