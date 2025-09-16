@@ -21,6 +21,21 @@ require("lazy").setup({
     enabled = false,
   },
 
+  -- Performance optimizations
+  {
+    "lewis6991/impatient.nvim",
+    priority = 1000,
+    config = function()
+      require("impatient").enable_profile()
+    end,
+  },
+
+  -- Startup time measurement
+  {
+    "dstein64/vim-startuptime",
+    cmd = "StartupTime",
+  },
+
   -- Core utilities
   {
     "nvim-lua/plenary.nvim",
@@ -74,6 +89,7 @@ require("lazy").setup({
   {
     "Mofiqul/vscode.nvim",
     priority = 1000,
+    lazy = false,
     config = function()
       local c = require("vscode.colors").get_colors()
       require("vscode").setup({
@@ -209,6 +225,7 @@ require("lazy").setup({
   -- Comments
   {
     "numToStr/Comment.nvim",
+    event = "VeryLazy",
     config = function()
       require("Comment").setup()
     end,
@@ -217,6 +234,7 @@ require("lazy").setup({
   -- Refactoring
   {
     "ThePrimeagen/refactoring.nvim",
+    event = "VeryLazy",
     dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-treesitter/nvim-treesitter" },
@@ -235,6 +253,7 @@ require("lazy").setup({
   -- Harpoon - file navigation
   {
     "ThePrimeagen/harpoon",
+    event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
 
@@ -309,6 +328,27 @@ require("lazy").setup({
     event = "InsertEnter",
   },
 
+  -- Performance optimizations
+  {
+    "nathom/filetype.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("filetype").setup({
+        overrides = {
+          extensions = {
+            -- Add any custom file extensions here
+          },
+          literal = {
+            -- Add any custom file names here
+          },
+          complex = {
+            -- Add any custom patterns here
+          },
+        },
+      })
+    end,
+  },
+
   -- Utilities
   {
     "bronson/vim-trailing-whitespace",
@@ -329,7 +369,7 @@ require("lazy").setup({
   -- LSP and completion
   {
     "neovim/nvim-lspconfig",
-    event = "BufRead",
+    event = "VeryLazy",
   },
 
   {
@@ -384,6 +424,7 @@ require("lazy").setup({
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
+    event = "VeryLazy",
     config = function()
       require("mason").setup()
     end,
