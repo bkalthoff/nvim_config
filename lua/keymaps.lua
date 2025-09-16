@@ -18,6 +18,12 @@ vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", opts)
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 vim.keymap.set("n", "<leader>s", ":w<CR>", { noremap = true })
 
+-- nvim-tree keymaps
+vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFile<CR>", { noremap = true, silent = true, desc = "Find current file in explorer" })
+vim.keymap.set("n", "<leader>et", "<cmd>NvimTreeToggle<CR>", { noremap = true, silent = true, desc = "Toggle file explorer" })
+vim.keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { noremap = true, silent = true, desc = "Collapse file explorer" })
+vim.keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { noremap = true, silent = true, desc = "Refresh file explorer" })
+
 -- Copilot configuration
 vim.g.copilot_no_tab_map = true
 vim.keymap.set("i", "<C-h>", 'copilot#Accept("<CR>")', { noremap = true, silent = true, expr = true })

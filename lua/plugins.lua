@@ -135,11 +135,38 @@ require("lazy").setup({
 
   -- File explorer
   {
-    "preservim/nerdtree",
-    cmd = { "NERDTree", "NERDTreeToggle", "NERDTreeFind" },
-    init = function()
-      vim.g.NERDTreeShowHidden = 1
-      vim.g.NERDTreeIgnore = { ".git", "node_modules", ".DS_Store" }
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup({
+        sort_by = "case_sensitive",
+        view = {
+          width = 30,
+          side = "left",
+        },
+        renderer = {
+          group_empty = true,
+        },
+        filters = {
+          dotfiles = false,
+        },
+        git = {
+          enable = true,
+          ignore = false,
+        },
+        actions = {
+          open_file = {
+            window_picker = {
+              enable = false,
+            },
+          },
+        },
+      })
+      
     end,
   },
 

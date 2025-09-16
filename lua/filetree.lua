@@ -1,5 +1,6 @@
 
--- nvim-tree.lua
+-- filetree.lua
+-- File tree utilities and functions using nvim-tree.lua
 
 local M = {}
 

@@ -17,8 +17,8 @@ require("lsp")
 -- Load autocommands
 require("autocmds")
 
--- Load NERDTree functions
-require("nerdtree")
+-- Load file tree functions
+require("filetree")
 
 -- Load theme settings
 require("mytheme")
