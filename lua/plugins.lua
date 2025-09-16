@@ -1,5 +1,4 @@
 -- plugins.lua
--- Neovim plugin configuration using lazy.nvim
 
 -- Install lazy.nvim if not already installed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -9,7 +8,7 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
+    "--branch=stable", -- latest stable release
     lazypath,
   })
 end
@@ -20,20 +19,10 @@ require("lazy").setup({
   rocks = {
     enabled = false,
   },
-
-  -- Performance optimizations
+  -- Packer manages itself
   {
-    "lewis6991/impatient.nvim",
-    priority = 1000,
-    config = function()
-      require("impatient").enable_profile()
-    end,
-  },
-
-  -- Startup time measurement
-  {
-    "dstein64/vim-startuptime",
-    cmd = "StartupTime",
+    "wbthomason/packer.nvim",
+    lazy = true, -- Don't load this plugin
   },
 
   -- Core utilities
@@ -51,59 +40,49 @@ require("lazy").setup({
       require("telescope").setup({
         defaults = {
           file_ignore_patterns = { "node_modules", ".git" },
-          layout_strategy = "vertical",
-          layout_config = {
-            vertical = { width = 0.8, height = 0.8 },
-          },
-          sorting_strategy = "ascending",
           prompt_prefix = "  ",
           selection_caret = "  ",
-        },
-        pickers = {
-          lsp_definitions = {
-            show_line = true,
-            fname_width = 50,
-            path_display = { "smart" },
+          layout_strategy = "horizontal",
+          layout_config = {
+            horizontal = {
+              width = 0.8,
+              height = 0.8,
+            },
           },
-          lsp_references = {
-            show_line = true,
-            fname_width = 50,
-            path_display = { "smart" },
-          },
-          lsp_implementations = {
-            show_line = true,
-            fname_width = 50,
-            path_display = { "smart" },
-          },
-          lsp_type_definitions = {
-            show_line = true,
-            fname_width = 50,
-            path_display = { "smart" },
-          },
+          winblend = 0,
+          border = {},
+          borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         },
       })
     end,
   },
 
-  -- Theme
+  -- Themes
+  {
+    "olimorris/onedarkpro.nvim",
+    priority = 1000, -- Load this first
+    config = function()
+      vim.cmd.colorscheme("onedark")
+    end,
+  },
+
   {
     "Mofiqul/vscode.nvim",
     priority = 1000,
-    lazy = false,
     config = function()
-      local c = require("vscode.colors").get_colors()
-      require("vscode").setup({
+      local c = require('vscode.colors').get_colors()
+      require('vscode').setup({
         transparent = true,
         italic_comments = true,
         disable_nvimtree_bg = true,
         color_overrides = {
-          vscLineNumber = "#FFFFFF",
+          vscLineNumber = '#FFFFFF',
         },
         group_overrides = {
-          Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
-        },
+          Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
+        }
       })
-      require("vscode").load()
+      require('vscode').load()
     end,
   },
 
@@ -120,34 +99,22 @@ require("lazy").setup({
     end,
   },
 
-  -- Treesitter - syntax highlighting
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "lua",
-          "vim",
-          "vimdoc",
-          "query",
-          "javascript",
-          "typescript",
-          "python",
-          "bash",
-          "json",
-          "yaml",
-          "markdown",
-        },
-        sync_install = false,
-        auto_install = true,
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-      })
-    end,
-  },
+  -- Treesitter - syntax highlighting (temporarily disabled due to download issues)
+  -- {
+  --   "nvim-treesitter/nvim-treesitter",
+  --   build = ":TSUpdate",
+  --   config = function()
+  --     require("nvim-treesitter.configs").setup({
+  --       ensure_installed = { "lua", "vim", "vimdoc", "query", "javascript", "typescript", "python", "bash" },
+  --       sync_install = false,
+  --       auto_install = true,
+  --       highlight = {
+  --         enable = true,
+  --         additional_vim_regex_highlighting = false,
+  --       },
+  --     })
+  --   end,
+  -- },
 
   -- File explorer
   {
@@ -182,50 +149,22 @@ require("lazy").setup({
           },
         },
       })
-      
     end,
   },
 
   -- Terminal
   {
-    "akinsho/toggleterm.nvim",
-    version = "*",
+    "voldikss/vim-floaterm",
+    cmd = { "FloatermNew", "FloatermToggle" },
     config = function()
-      require("toggleterm").setup({
-        size = function(term)
-          if term.direction == "horizontal" then
-            return 15
-          elseif term.direction == "vertical" then
-            return vim.o.columns * 0.4
-          end
-        end,
-        open_mapping = [[<c-\>]],
-        hide_numbers = true,
-        shade_filetypes = {},
-        shade_terminals = true,
-        shading_factor = 2,
-        start_in_insert = true,
-        insert_mappings = true,
-        persist_size = true,
-        direction = "float",
-        close_on_exit = true,
-        shell = vim.o.shell,
-        float_opts = {
-          border = "curved",
-          winblend = 0,
-          highlights = {
-            border = "Normal",
-            background = "Normal",
-          },
-        },
-      })
+      vim.g.floaterm_width = 0.8
+      vim.g.floaterm_height = 0.8
     end,
   },
 
   -- Comments
   {
     "numToStr/Comment.nvim",
-    event = "VeryLazy",
     config = function()
       require("Comment").setup()
     end,
@@ -234,7 +173,6 @@ require("lazy").setup({
   -- Refactoring
   {
     "ThePrimeagen/refactoring.nvim",
-    event = "VeryLazy",
     dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-treesitter/nvim-treesitter" },
@@ -253,72 +191,30 @@ require("lazy").setup({
   -- Harpoon - file navigation
   {
     "ThePrimeagen/harpoon",
-    event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
 
-  -- Git tools
-  {
-    "lewis6991/gitsigns.nvim",
-    event = "BufRead",
-    config = function()
-      require("gitsigns").setup({
-        signs = {
-          add = { text = "▎", hl = "GitSignsAdd", numhl = "GitSignsAdd" },
-          change = { text = "▎", hl = "GitSignsChange", numhl = "GitSignsChange" },
-          delete = { text = "▎", hl = "GitSignsDelete", numhl = "GitSignsDelete" },
-          topdelete = { text = "▎", hl = "GitSignsDelete", numhl = "GitSignsDelete" },
-          changedelete = { text = "▎", hl = "GitSignsChange", numhl = "GitSignsChange" },
-          untracked = { text = "▎", hl = "GitSignsAdd", numhl = "GitSignsAdd" },
-        },
-        signcolumn = true,
-        numhl = false,
-        linehl = false,
-        word_diff = false,
-        watch_gitdir = {
-          interval = 1000,
-          follow_files = true,
-        },
-        attach_to_untracked = true,
-        current_line_blame = false,
-        current_line_blame_opts = {
-          virt_text = true,
-          virt_text_pos = "eol",
-          delay = 1000,
-          ignore_whitespace = false,
-        },
-        sign_priority = 6,
-        update_debounce = 100,
-        status_formatter = nil,
-        max_file_length = 40000,
-        preview_config = {
-          border = "single",
-          style = "minimal",
-          relative = "cursor",
-          row = 0,
-          col = 1,
-        },
-      })
-    end,
-  },
-
-  -- Git fugitive - powerful git interface
-  {
-    "tpope/vim-fugitive",
-    cmd = { "Git", "G", "Gdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete", "GBrowse" },
-  },
-
-  -- Git blame
+  -- Git
   {
     "f-person/git-blame.nvim",
     event = "BufRead",
   },
 
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "BufRead",
+    config = function()
+      require("gitsigns").setup()
+    end,
+  },
 
-
-  -- GitHub integration
   {
     "ruanyl/vim-gh-line",
+    event = "BufRead",
+  },
+
+  {
+    "airblade/vim-gitgutter",
     event = "BufRead",
   },
 
@@ -328,37 +224,10 @@ require("lazy").setup({
     event = "InsertEnter",
   },
 
-  -- Performance optimizations
-  {
-    "nathom/filetype.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("filetype").setup({
-        overrides = {
-          extensions = {
-            -- Add any custom file extensions here
-          },
-          literal = {
-            -- Add any custom file names here
-          },
-          complex = {
-            -- Add any custom patterns here
-          },
-        },
-      })
-    end,
-  },
-
   -- Utilities
   {
     "bronson/vim-trailing-whitespace",
     event = "BufWritePre",
-  },
-
-  -- Auto-detect indentation
-  {
-    "tpope/vim-sleuth",
-    event = "BufRead",
   },
 
   {
@@ -369,7 +238,7 @@ require("lazy").setup({
   -- LSP and completion
   {
     "neovim/nvim-lspconfig",
-    event = "VeryLazy",
+    event = "BufRead",
   },
 
   {
@@ -385,7 +254,7 @@ require("lazy").setup({
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
-
+      
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -408,11 +277,8 @@ require("lazy").setup({
           { name = "path" },
           { name = "buffer" },
         }),
-        completion = {
-          completeopt = "menu,menuone,noinsert",
-        },
       })
-
+      
       luasnip.setup({
         history = true,
         delete_events = { "TextChanged", "InsertLeave" },
@@ -420,11 +286,35 @@ require("lazy").setup({
     end,
   },
 
+  {
+    "hrsh7th/cmp-nvim-lsp",
+    event = "InsertEnter",
+  },
+
+  {
+    "hrsh7th/cmp-path",
+    event = "InsertEnter",
+  },
+
+  {
+    "hrsh7th/cmp-buffer",
+    event = "InsertEnter",
+  },
+
+  {
+    "L3MON4D3/LuaSnip",
+    event = "InsertEnter",
+  },
+
+  {
+    "saadparwaiz1/cmp_luasnip",
+    event = "InsertEnter",
+  },
+
   -- Mason for LSP server management
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     cmd = "Mason",
-    event = "VeryLazy",
     config = function()
       require("mason").setup()
     end,

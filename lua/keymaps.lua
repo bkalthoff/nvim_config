@@ -16,7 +16,7 @@ vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", opts)
 
 -- General mappings
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
-vim.keymap.set("n", "<leader>w", ":w<CR>", { noremap = true, desc = "Save file" })
+vim.keymap.set("n", "<leader>s", ":w<CR>", { noremap = true })
 
 -- nvim-tree keymaps
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFile<CR>", { noremap = true, silent = true, desc = "Find current file in explorer" })
@@ -41,10 +41,10 @@ vim.keymap.set("n", "<leader>gg", "<cmd>Git<CR>", { noremap = true, desc = "Open
 vim.keymap.set("n", "<leader>gx", "<cmd>Gdiffsplit<CR>", { noremap = true, desc = "Git diff split" })
 
 -- Terminal keymaps
-vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true, desc = "Toggle terminal" })
-vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", { noremap = true, silent = true, desc = "Toggle floating terminal" })
-vim.keymap.set("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<CR>", { noremap = true, silent = true, desc = "Toggle horizontal terminal" })
-vim.keymap.set("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<CR>", { noremap = true, silent = true, desc = "Toggle vertical terminal" })
+vim.keymap.set("n", "<leader>tt", "<cmd>FloatermToggle<CR>", { noremap = true, silent = true, desc = "Toggle terminal" })
+vim.keymap.set("n", "<leader>tf", "<cmd>FloatermNew<CR>", { noremap = true, silent = true, desc = "New floating terminal" })
+vim.keymap.set("n", "<leader>th", "<cmd>FloatermNew --height=0.3 --width=0.8 --wintype=split --position=botright<CR>", { noremap = true, silent = true, desc = "New horizontal terminal" })
+vim.keymap.set("n", "<leader>tv", "<cmd>FloatermNew --height=0.8 --width=0.3 --wintype=vsplit --position=rightbot<CR>", { noremap = true, silent = true, desc = "New vertical terminal" })
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, desc = "Exit terminal mode" })
 
 -- Copilot configuration
