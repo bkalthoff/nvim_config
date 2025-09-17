@@ -48,5 +48,4 @@ vim.keymap.set("n", "<leader>tv", "<cmd>FloatermNew --height=0.8 --width=0.3 --w
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, desc = "Exit terminal mode" })
 
 -- Copilot configuration
-vim.g.copilot_no_tab_map = true
-vim.keymap.set("i", "<C-h>", 'copilot#Accept("<CR>")', { noremap = true, silent = true, expr = true })
+vim.keymap.set("i", "<C-h>", 'copilot#Accept("<CR>")', { expr = true, silent = true, replace_keycodes = false })

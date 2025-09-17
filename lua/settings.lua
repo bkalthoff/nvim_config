@@ -42,3 +42,6 @@ vim.opt.termguicolors = true
 vim.cmd("filetype plugin indent on")
 vim.cmd("syntax on")
 
+-- Ensure backspace is bound separately from C-h
+vim.keymap.set("i", "<BS>", "<BS>", { noremap = true })
+
