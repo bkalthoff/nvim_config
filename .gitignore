@@ -1,8 +1,9 @@
-tt.*
-.tests
-doc/tags
-debug
-.repro
-foo.*
+# Ignore lazy.nvim plugin directory (will be re-downloaded)
+lazy-lock.json
+
+# Ignore data directories
 *.log
-data
+.DS_Store
+
+# Optional: Keep lazy-lock.json if you want reproducible plugin versions
+# Just remove the lazy-lock.json line above
